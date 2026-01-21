@@ -8,6 +8,7 @@ export default function Footer() {
   const footerLinks = {
     resources: [
       { name: "Cash Out Refinance", href: "/cash-out-refinance-malaysia" },
+      { name: "Debt Consolidation", href: "/debt-consolidation-malaysia" },
       { name: "Refinance Calculator", href: "/calculator" },
       { name: "How Refinancing Works", href: "/#how-it-works" },
       { name: "FAQ", href: "/#faq" },

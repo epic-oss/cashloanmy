@@ -27,11 +27,13 @@ const banks = [
 ];
 
 const purposes = [
-  { value: "renovation", label: "Renovation" },
+  { value: "pay_off_credit_cards", label: "Pay Off Credit Card Debt" },
+  { value: "pay_off_personal_loans", label: "Pay Off Personal Loans" },
   { value: "debt_consolidation", label: "Debt Consolidation" },
-  { value: "investment_business", label: "Investment/Business" },
+  { value: "renovation", label: "Renovation" },
+  { value: "investment_business", label: "Investment / Business" },
   { value: "education", label: "Education" },
-  { value: "medical_emergency", label: "Medical/Emergency" },
+  { value: "medical_emergency", label: "Medical / Emergency" },
   { value: "other", label: "Other" },
 ];
 

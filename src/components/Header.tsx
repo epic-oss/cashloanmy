@@ -105,6 +105,12 @@ export default function Header() {
             >
               Cash Out
             </Link>
+            <Link
+              href="/debt-consolidation-malaysia"
+              className="text-green-600 hover:text-green-700 font-semibold transition-colors"
+            >
+              Debt Consolidation
+            </Link>
 
             {/* Guides Dropdown */}
             <div className="relative" ref={dropdownRef}>
@@ -306,6 +312,13 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Cash Out
+              </Link>
+              <Link
+                href="/debt-consolidation-malaysia"
+                className="text-green-600 hover:text-green-700 font-semibold py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Debt Consolidation
               </Link>
 
               {/* Mobile Guides Accordion */}

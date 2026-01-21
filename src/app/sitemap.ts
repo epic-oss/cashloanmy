@@ -115,6 +115,13 @@ export default function sitemap() {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    // Debt consolidation
+    {
+      url: `${baseUrl}/debt-consolidation-malaysia`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
     // Bank-specific pages
     {
       url: `${baseUrl}/maybank-refinance-home-loan`,

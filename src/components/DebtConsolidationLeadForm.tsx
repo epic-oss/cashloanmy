@@ -3,38 +3,10 @@
 import { useState } from "react";
 import { formatNumberWithCommas, stripCommas } from "@/lib/utils";
 
-interface LeadFormProps {
+interface DebtConsolidationLeadFormProps {
   variant?: "hero" | "modal" | "inline";
   source?: string;
-  lang?: "ms" | "en" | "zh";
 }
-
-const content = {
-  ms: {
-    formTitle: "Dapatkan Sebut Harga Percuma",
-    buttonText: "Dapatkan Sebut Harga Percuma",
-    submitting: "Menghantar...",
-    successTitle: "Terima Kasih!",
-    successMessage: "Kami telah menerima permintaan anda. Pakar refinancing kami akan menghubungi anda dalam masa 24 jam dengan pilihan penjimatan yang sesuai.",
-    disclaimer: "Dengan menghantar, anda bersetuju untuk dihubungi oleh rakan refinancing kami. Maklumat anda selamat dan tidak akan dikongsi.",
-  },
-  en: {
-    formTitle: "Get Your Free Refinancing Quote",
-    buttonText: "Get Free Quote",
-    submitting: "Submitting...",
-    successTitle: "Thank You!",
-    successMessage: "We've received your request. Our refinancing specialist will contact you within 24 hours with personalized savings options.",
-    disclaimer: "By submitting, you agree to be contacted by our refinancing partners. Your information is secure and will not be shared.",
-  },
-  zh: {
-    formTitle: "获取免费再融资报价",
-    buttonText: "获取免费报价",
-    submitting: "提交中...",
-    successTitle: "谢谢您！",
-    successMessage: "我们已收到您的请求。我们的再融资专家将在24小时内与您联系，为您提供个性化的节省方案。",
-    disclaimer: "提交即表示您同意我们的再融资合作伙伴与您联系。您的信息是安全的，不会被分享。",
-  },
-};
 
 const banks = [
   "Maybank",
@@ -54,21 +26,39 @@ const banks = [
   "Other",
 ];
 
-export default function LeadForm({
-  variant = "hero",
-  source = "homepage",
-  lang = "en",
-}: LeadFormProps) {
-  const t = content[lang];
+const debtTypes = [
+  { value: "credit_cards", label: "Credit Cards" },
+  { value: "personal_loans", label: "Personal Loans" },
+  { value: "car_loan", label: "Car Loan" },
+  { value: "bnpl", label: "BNPL (Shopee/Grab PayLater)" },
+  { value: "other", label: "Other" },
+];
+
+export default function DebtConsolidationLeadForm({
+  variant = "modal",
+  source = "debt-consolidation",
+}: DebtConsolidationLeadFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     WhatsApp: "",
+    PropertyValue: "",
     Outstanding: "",
+    TotalDebt: "",
     CurrentBank: "",
+    DebtTypes: [] as string[],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+
+  const handleDebtTypeChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      DebtTypes: prev.DebtTypes.includes(value)
+        ? prev.DebtTypes.filter(t => t !== value)
+        : [...prev.DebtTypes, value]
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,8 +66,8 @@ export default function LeadForm({
     setError("");
 
     // Validation
-    if (!formData.name || !formData.WhatsApp || !formData.Outstanding || !formData.CurrentBank) {
-      setError("Please fill in all fields");
+    if (!formData.name || !formData.WhatsApp || !formData.PropertyValue || !formData.Outstanding || !formData.TotalDebt || !formData.CurrentBank) {
+      setError("Please fill in all required fields");
       setIsSubmitting(false);
       return;
     }
@@ -91,16 +81,31 @@ export default function LeadForm({
     }
 
     try {
+      const propertyValue = parseFloat(stripCommas(formData.PropertyValue)) || 0;
+      const outstanding = parseFloat(stripCommas(formData.Outstanding)) || 0;
+      const totalDebt = parseFloat(stripCommas(formData.TotalDebt)) || 0;
+
+      // Calculate potential cash out (90% LTV - outstanding)
+      const maxCashOut = Math.max(0, propertyValue * 0.9 - outstanding);
+      const equity = propertyValue - outstanding;
+      const canConsolidate = maxCashOut >= totalDebt;
+
       const payload = {
         timestamp: new Date().toISOString(),
         name: formData.name,
         WhatsApp: formData.WhatsApp.replace(/\s|-/g, ""),
+        PropertyValue: stripCommas(formData.PropertyValue),
         Outstanding: stripCommas(formData.Outstanding),
+        TotalDebtToConsolidate: stripCommas(formData.TotalDebt),
+        MaxCashOut: maxCashOut.toString(),
+        Equity: equity.toString(),
+        CanConsolidateAllDebt: canConsolidate ? "Yes" : "No",
         CurrentBank: formData.CurrentBank,
+        DebtTypes: formData.DebtTypes.join(", ") || "Not specified",
         source_url: typeof window !== "undefined" ? window.location.href : "",
-        source: "refinancehomeloanmy",
-        calculator_type: "refinance_home_loan",
-        lead_type: "refinance",
+        source: source,
+        calculator_type: "debt_consolidation",
+        lead_type: "debt_consolidation",
         site: "refinancehomeloanmy.com",
       };
 
@@ -121,7 +126,7 @@ export default function LeadForm({
         throw new Error("Failed to submit");
       }
     } catch {
-      // For now, show success even if webhook fails (remove this in production)
+      // For now, show success even if webhook fails
       setIsSubmitted(true);
     } finally {
       setIsSubmitting(false);
@@ -131,9 +136,9 @@ export default function LeadForm({
   if (isSubmitted) {
     return (
       <div className={`${variant === "hero" ? "bg-white rounded-2xl shadow-xl p-8" : "p-6"} text-center`}>
-        <div className="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg
-            className="w-8 h-8 text-secondary-600"
+            className="w-8 h-8 text-green-600"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -146,32 +151,33 @@ export default function LeadForm({
             />
           </svg>
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-2">{t.successTitle}</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">You&apos;re One Step Closer to Being Debt-Free!</h3>
         <p className="text-gray-600">
-          {t.successMessage}
+          Our debt consolidation specialist will contact you within 24 hours with a personalized plan to pay off your debts at a lower interest rate.
         </p>
       </div>
     );
   }
 
   const inputClasses =
-    "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all";
+    "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all";
 
   return (
     <form
       onSubmit={handleSubmit}
       className={`${variant === "hero" ? "bg-white rounded-2xl shadow-xl p-6 md:p-8" : ""}`}
     >
-      {variant === "hero" && (
-        <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">
-          {t.formTitle}
-        </h3>
-      )}
+      <h3 className="text-xl font-bold text-gray-900 mb-2 text-center">
+        Get Your Debt-Free Quote
+      </h3>
+      <p className="text-sm text-gray-500 mb-6 text-center">
+        Find out how much you can save by consolidating your debts
+      </p>
 
       <div className="space-y-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Full Name
+            Full Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -185,7 +191,7 @@ export default function LeadForm({
 
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-            Phone Number
+            Phone Number <span className="text-red-500">*</span>
           </label>
           <input
             type="tel"
@@ -198,8 +204,25 @@ export default function LeadForm({
         </div>
 
         <div>
+          <label htmlFor="property_value" className="block text-sm font-medium text-gray-700 mb-1">
+            Property Value (RM) <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="property_value"
+            placeholder="e.g., 500,000"
+            className={inputClasses}
+            value={formData.PropertyValue}
+            onChange={(e) => {
+              const formatted = formatNumberWithCommas(e.target.value);
+              setFormData({ ...formData, PropertyValue: formatted });
+            }}
+          />
+        </div>
+
+        <div>
           <label htmlFor="outstanding_loan" className="block text-sm font-medium text-gray-700 mb-1">
-            Outstanding Loan Amount (RM)
+            Outstanding Home Loan (RM) <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -215,8 +238,26 @@ export default function LeadForm({
         </div>
 
         <div>
+          <label htmlFor="total_debt" className="block text-sm font-medium text-gray-700 mb-1">
+            Total Debt to Consolidate (RM) <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="total_debt"
+            placeholder="e.g., 50,000"
+            className={inputClasses}
+            value={formData.TotalDebt}
+            onChange={(e) => {
+              const formatted = formatNumberWithCommas(e.target.value);
+              setFormData({ ...formData, TotalDebt: formatted });
+            }}
+          />
+          <p className="text-xs text-gray-500 mt-1">Total of all credit cards, personal loans, etc.</p>
+        </div>
+
+        <div>
           <label htmlFor="current_bank" className="block text-sm font-medium text-gray-700 mb-1">
-            Current Bank
+            Current Home Loan Bank <span className="text-red-500">*</span>
           </label>
           <select
             id="current_bank"
@@ -233,6 +274,25 @@ export default function LeadForm({
           </select>
         </div>
 
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Types of Debt <span className="text-gray-400 text-xs">(select all that apply)</span>
+          </label>
+          <div className="space-y-2">
+            {debtTypes.map((debt) => (
+              <label key={debt.value} className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.DebtTypes.includes(debt.value)}
+                  onChange={() => handleDebtTypeChange(debt.value)}
+                  className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                />
+                <span className="text-sm text-gray-700">{debt.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
         {error && (
           <p className="text-red-600 text-sm">{error}</p>
         )}
@@ -240,7 +300,7 @@ export default function LeadForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full btn-primary py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-lg"
         >
           {isSubmitting ? (
             <span className="flex items-center justify-center">
@@ -263,16 +323,16 @@ export default function LeadForm({
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              {t.submitting}
+              Submitting...
             </span>
           ) : (
-            t.buttonText
+            "Get My Debt-Free Plan"
           )}
         </button>
       </div>
 
       <p className="text-xs text-gray-500 mt-4 text-center">
-        {t.disclaimer}
+        By submitting, you agree to be contacted by our refinancing partners. Your information is secure and will not be shared.
       </p>
     </form>
   );
