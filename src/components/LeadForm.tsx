@@ -31,9 +31,9 @@ export default function LeadForm({
 }: LeadFormProps) {
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
-    outstanding_loan: "",
-    current_bank: "",
+    WhatsApp: "",
+    Outstanding: "",
+    CurrentBank: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -45,7 +45,7 @@ export default function LeadForm({
     setError("");
 
     // Validation
-    if (!formData.name || !formData.phone || !formData.outstanding_loan || !formData.current_bank) {
+    if (!formData.name || !formData.WhatsApp || !formData.Outstanding || !formData.CurrentBank) {
       setError("Please fill in all fields");
       setIsSubmitting(false);
       return;
@@ -53,7 +53,7 @@ export default function LeadForm({
 
     // Phone validation (Malaysian format)
     const phoneRegex = /^(\+?6?01)[0-9]{8,9}$/;
-    if (!phoneRegex.test(formData.phone.replace(/\s|-/g, ""))) {
+    if (!phoneRegex.test(formData.WhatsApp.replace(/\s|-/g, ""))) {
       setError("Please enter a valid Malaysian phone number");
       setIsSubmitting(false);
       return;
@@ -63,9 +63,9 @@ export default function LeadForm({
       const payload = {
         timestamp: new Date().toISOString(),
         name: formData.name,
-        phone: formData.phone.replace(/\s|-/g, ""),
-        outstanding_loan: formData.outstanding_loan,
-        current_bank: formData.current_bank,
+        WhatsApp: formData.WhatsApp.replace(/\s|-/g, ""),
+        Outstanding: formData.Outstanding,
+        CurrentBank: formData.CurrentBank,
         source_url: typeof window !== "undefined" ? window.location.href : "",
         source: "refinancehomeloanmy",
         calculator_type: "refinance_home_loan",
@@ -161,8 +161,8 @@ export default function LeadForm({
             id="phone"
             placeholder="e.g., 012-3456789"
             className={inputClasses}
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            value={formData.WhatsApp}
+            onChange={(e) => setFormData({ ...formData, WhatsApp: e.target.value })}
           />
         </div>
 
@@ -175,10 +175,10 @@ export default function LeadForm({
             id="outstanding_loan"
             placeholder="e.g., 300,000"
             className={inputClasses}
-            value={formData.outstanding_loan}
+            value={formData.Outstanding}
             onChange={(e) => {
               const value = e.target.value.replace(/[^0-9,]/g, "");
-              setFormData({ ...formData, outstanding_loan: value });
+              setFormData({ ...formData, Outstanding: value });
             }}
           />
         </div>
@@ -190,8 +190,8 @@ export default function LeadForm({
           <select
             id="current_bank"
             className={inputClasses}
-            value={formData.current_bank}
-            onChange={(e) => setFormData({ ...formData, current_bank: e.target.value })}
+            value={formData.CurrentBank}
+            onChange={(e) => setFormData({ ...formData, CurrentBank: e.target.value })}
           >
             <option value="">Select your current bank</option>
             {banks.map((bank) => (
