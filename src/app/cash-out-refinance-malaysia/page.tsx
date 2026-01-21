@@ -90,13 +90,17 @@ export default function CashOutRefinancePage() {
               Get Cash Out Quote
               <ArrowRight className="w-5 h-5" />
             </button>
-            <Link
-              href="/calculator"
-              className="inline-flex items-center gap-2 bg-secondary-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-secondary-500 transition-all border border-secondary-400"
+            <a
+              href="#cash-out-calculator"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('cash-out-calculator')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-2 bg-secondary-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-secondary-500 transition-all border border-secondary-400 cursor-pointer"
             >
               <Calculator className="w-5 h-5" />
               Calculate Now
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -178,7 +182,7 @@ export default function CashOutRefinancePage() {
           </section>
 
           {/* Cash Out Calculator Widget */}
-          <section className="mb-12">
+          <section id="cash-out-calculator" className="mb-12 scroll-mt-20">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Cash Out Refinance Calculator
             </h2>

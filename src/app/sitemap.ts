@@ -15,6 +15,12 @@ export default function sitemap() {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    {
+      url: `${baseUrl}/cash-out-calculator`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
     // Bahasa Malaysia pages
     {
       url: `${baseUrl}/bank-terbaik-refinance-rumah`,
