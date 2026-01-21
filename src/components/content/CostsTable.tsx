@@ -1,7 +1,7 @@
 import { SITE_CONFIG } from "@/lib/constants";
 
 interface CostsTableProps {
-  lang?: "ms" | "en";
+  lang?: "ms" | "en" | "zh";
 }
 
 export function CostsTable({ lang = "en" }: CostsTableProps) {
@@ -32,6 +32,18 @@ export function CostsTable({ lang = "en" }: CostsTableProps) {
       mrta: "MRTA/MLTA",
       disbursement: "Disbursement Fee",
     },
+    zh: {
+      title: `再融资费用 ${currentYear}`,
+      updated: `更新日期: ${lastUpdatedEn}`,
+      item: "项目",
+      cost: "预估费用",
+      notes: "备注",
+      legalFees: "律师费",
+      valuationFees: "估价费",
+      stampDuty: "印花税",
+      mrta: "MRTA/MLTA",
+      disbursement: "手续费",
+    },
   };
 
   const t = labels[lang];
@@ -40,12 +52,12 @@ export function CostsTable({ lang = "en" }: CostsTableProps) {
     {
       name: t.legalFees,
       cost: costs.legalFeesText,
-      note: lang === "ms" ? "Bergantung kepada jumlah pinjaman" : "Depends on loan amount",
+      note: lang === "ms" ? "Bergantung kepada jumlah pinjaman" : lang === "zh" ? "视贷款金额而定" : "Depends on loan amount",
     },
     {
       name: t.valuationFees,
       cost: costs.valuationFeesText,
-      note: lang === "ms" ? "Bergantung kepada nilai hartanah" : "Depends on property value",
+      note: lang === "ms" ? "Bergantung kepada nilai hartanah" : lang === "zh" ? "视房产价值而定" : "Depends on property value",
     },
     {
       name: t.stampDuty,
@@ -54,13 +66,13 @@ export function CostsTable({ lang = "en" }: CostsTableProps) {
     },
     {
       name: t.mrta,
-      cost: lang === "ms" ? "Bergantung" : "Varies",
+      cost: lang === "ms" ? "Bergantung" : lang === "zh" ? "不等" : "Varies",
       note: costs.mrtaText,
     },
     {
       name: t.disbursement,
       cost: costs.disbursementFee,
-      note: lang === "ms" ? "Yuran bank" : "Bank fee",
+      note: lang === "ms" ? "Yuran bank" : lang === "zh" ? "银行费用" : "Bank fee",
     },
   ];
 

@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { formatNumberWithCommas, stripCommas } from "@/lib/utils";
 
 interface LeadFormProps {
   variant?: "hero" | "modal" | "inline";
   source?: string;
-  lang?: "ms" | "en";
+  lang?: "ms" | "en" | "zh";
 }
 
 const content = {
@@ -24,6 +25,14 @@ const content = {
     successTitle: "Thank You!",
     successMessage: "We've received your request. Our refinancing specialist will contact you within 24 hours with personalized savings options.",
     disclaimer: "By submitting, you agree to be contacted by our refinancing partners. Your information is secure and will not be shared.",
+  },
+  zh: {
+    formTitle: "获取免费再融资报价",
+    buttonText: "获取免费报价",
+    submitting: "提交中...",
+    successTitle: "谢谢您！",
+    successMessage: "我们已收到您的请求。我们的再融资专家将在24小时内与您联系，为您提供个性化的节省方案。",
+    disclaimer: "提交即表示您同意我们的再融资合作伙伴与您联系。您的信息是安全的，不会被分享。",
   },
 };
 
@@ -86,7 +95,7 @@ export default function LeadForm({
         timestamp: new Date().toISOString(),
         name: formData.name,
         WhatsApp: formData.WhatsApp.replace(/\s|-/g, ""),
-        Outstanding: formData.Outstanding,
+        Outstanding: stripCommas(formData.Outstanding),
         CurrentBank: formData.CurrentBank,
         source_url: typeof window !== "undefined" ? window.location.href : "",
         source: "refinancehomeloanmy",
@@ -199,8 +208,8 @@ export default function LeadForm({
             className={inputClasses}
             value={formData.Outstanding}
             onChange={(e) => {
-              const value = e.target.value.replace(/[^0-9,]/g, "");
-              setFormData({ ...formData, Outstanding: value });
+              const formatted = formatNumberWithCommas(e.target.value);
+              setFormData({ ...formData, Outstanding: formatted });
             }}
           />
         </div>

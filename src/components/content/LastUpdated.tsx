@@ -1,7 +1,7 @@
 import { SITE_CONFIG } from "@/lib/constants";
 
 interface LastUpdatedProps {
-  lang?: "ms" | "en";
+  lang?: "ms" | "en" | "zh";
   variant?: "default" | "hero";
 }
 
@@ -9,6 +9,8 @@ export function LastUpdated({ lang = "en", variant = "default" }: LastUpdatedPro
   const text =
     lang === "ms"
       ? `Dikemaskini: ${SITE_CONFIG.lastUpdated}`
+      : lang === "zh"
+      ? `更新日期: ${SITE_CONFIG.lastUpdatedEn}`
       : `Updated: ${SITE_CONFIG.lastUpdatedEn}`;
 
   const colorClass = variant === "hero" ? "text-white/70" : "text-gray-500";

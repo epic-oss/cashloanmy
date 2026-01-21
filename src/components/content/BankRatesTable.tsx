@@ -6,7 +6,7 @@ import { useState } from "react";
 interface BankRatesTableProps {
   showAll?: boolean;
   limit?: number;
-  lang?: "ms" | "en";
+  lang?: "ms" | "en" | "zh";
 }
 
 export function BankRatesTable({
@@ -41,6 +41,17 @@ export function BankRatesTable({
       lockIn: "Lock-in",
       years: "years",
       bestFor: "Best For",
+    },
+    zh: {
+      title: `马来西亚银行再融资利率 ${SITE_CONFIG.currentYear}`,
+      updated: `更新日期: ${SITE_CONFIG.lastUpdatedEn}`,
+      bank: "银行",
+      rateFrom: "利率从",
+      maxTenure: "最长年限",
+      maxLTV: "最高LTV",
+      lockIn: "锁定期",
+      years: "年",
+      bestFor: "最适合",
     },
   };
 

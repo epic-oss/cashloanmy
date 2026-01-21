@@ -1,7 +1,7 @@
 import { SITE_CONFIG, formatCurrency } from "@/lib/constants";
 
 interface EligibilityCardProps {
-  lang?: "ms" | "en";
+  lang?: "ms" | "en" | "zh";
 }
 
 export function EligibilityCard({ lang = "en" }: EligibilityCardProps) {
@@ -27,6 +27,16 @@ export function EligibilityCard({ lang = "en" }: EligibilityCardProps) {
       ltv: "Maximum LTV",
       years: "years",
       months: "months",
+    },
+    zh: {
+      title: `再融资申请条件 ${currentYear}`,
+      age: "年龄",
+      income: "最低收入",
+      dsr: "最高DSR",
+      employment: "工作年资",
+      ltv: "最高LTV",
+      years: "岁",
+      months: "个月",
     },
   };
 

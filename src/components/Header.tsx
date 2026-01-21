@@ -27,9 +27,13 @@ const guidesData = {
   },
   zh: {
     label: "中文",
-    comingSoon: true,
+    comingSoon: false,
     items: [
-      { name: "再融资指南", href: "/zh/refinance-guide", active: false },
+      { name: "什么是再融资", href: "/cn/shenme-shi-refinance", active: true },
+      { name: "好处与坏处", href: "/cn/refinance-haochu-huaichu", active: true },
+      { name: "所需资料", href: "/cn/refinance-xuyao-ziliao", active: true },
+      { name: "多久可以Refinance", href: "/cn/duojiu-keyi-refinance", active: true },
+      { name: "最佳银行", href: "/cn/zuijia-refinance-yinhang", active: true },
     ],
   },
 };
@@ -117,8 +121,7 @@ export default function Header() {
                   <div className="grid grid-cols-3 gap-6">
                     {/* Bahasa Malaysia */}
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                        <span className="text-lg">🇲🇾</span>
+                      <h3 className="text-sm font-semibold text-gray-900 mb-3">
                         {guidesData.ms.label}
                       </h3>
                       <ul className="space-y-2">
@@ -138,8 +141,7 @@ export default function Header() {
 
                     {/* English */}
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                        <span className="text-lg">🇬🇧</span>
+                      <h3 className="text-sm font-semibold text-gray-900 mb-3">
                         {guidesData.en.label}
                       </h3>
                       <ul className="space-y-2">
@@ -159,19 +161,19 @@ export default function Header() {
 
                     {/* Chinese */}
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                        <span className="text-lg">🇨🇳</span>
+                      <h3 className="text-sm font-semibold text-gray-900 mb-3">
                         {guidesData.zh.label}
-                        <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
-                          Coming Soon
-                        </span>
                       </h3>
                       <ul className="space-y-2">
                         {guidesData.zh.items.map((item) => (
                           <li key={item.href}>
-                            <span className="text-sm text-gray-400 block py-1.5 px-2 cursor-not-allowed">
+                            <Link
+                              href={item.href}
+                              className="text-sm text-gray-600 hover:text-primary-600 hover:bg-primary-50 block py-1.5 px-2 rounded transition-colors"
+                              onClick={() => setGuidesOpen(false)}
+                            >
                               {item.name}
-                            </span>
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -288,8 +290,8 @@ export default function Header() {
                   <div className="pl-4 space-y-4 mt-2">
                     {/* Bahasa Malaysia */}
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-800 flex items-center gap-2 mb-2">
-                        <span>🇲🇾</span> {guidesData.ms.label}
+                      <h4 className="text-sm font-semibold text-gray-800 mb-2">
+                        {guidesData.ms.label}
                       </h4>
                       <ul className="space-y-1 pl-2">
                         {guidesData.ms.items.map((item) => (
@@ -311,8 +313,8 @@ export default function Header() {
 
                     {/* English */}
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-800 flex items-center gap-2 mb-2">
-                        <span>🇬🇧</span> {guidesData.en.label}
+                      <h4 className="text-sm font-semibold text-gray-800 mb-2">
+                        {guidesData.en.label}
                       </h4>
                       <ul className="space-y-1 pl-2">
                         {guidesData.en.items.map((item) => (
@@ -334,18 +336,22 @@ export default function Header() {
 
                     {/* Chinese */}
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-800 flex items-center gap-2 mb-2">
-                        <span>🇨🇳</span> {guidesData.zh.label}
-                        <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
-                          Coming Soon
-                        </span>
+                      <h4 className="text-sm font-semibold text-gray-800 mb-2">
+                        {guidesData.zh.label}
                       </h4>
                       <ul className="space-y-1 pl-2">
                         {guidesData.zh.items.map((item) => (
                           <li key={item.href}>
-                            <span className="text-sm text-gray-400 block py-1.5">
+                            <Link
+                              href={item.href}
+                              className="text-sm text-gray-600 hover:text-primary-600 block py-1.5"
+                              onClick={() => {
+                                setMobileMenuOpen(false);
+                                setMobileGuidesOpen(false);
+                              }}
+                            >
                               {item.name}
-                            </span>
+                            </Link>
                           </li>
                         ))}
                       </ul>

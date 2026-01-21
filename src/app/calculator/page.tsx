@@ -6,6 +6,7 @@ import FAQ from "@/components/FAQ";
 import BackToTop from "@/components/BackToTop";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { SITE_CONFIG, getBanksSortedByRate } from "@/lib/constants";
+import { formatNumberWithCommas, stripCommas } from "@/lib/utils";
 
 const { currentYear, costs } = SITE_CONFIG;
 
@@ -69,7 +70,7 @@ export default function CalculatorPage() {
   }, []);
 
   const calculateSavings = () => {
-    const principal = parseFloat(currentLoanAmount.replace(/,/g, ""));
+    const principal = parseFloat(stripCommas(currentLoanAmount));
     const currentRateNum = parseFloat(currentRate);
     const newRateNum = parseFloat(newRate);
     const years = parseFloat(remainingYears);
@@ -148,8 +149,8 @@ export default function CalculatorPage() {
                   placeholder="e.g., 400,000"
                   value={currentLoanAmount}
                   onChange={(e) => {
-                    const value = e.target.value.replace(/[^0-9,]/g, "");
-                    setCurrentLoanAmount(value);
+                    const formatted = formatNumberWithCommas(e.target.value);
+                    setCurrentLoanAmount(formatted);
                   }}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />

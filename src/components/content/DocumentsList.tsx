@@ -2,7 +2,7 @@ import { SITE_CONFIG } from "@/lib/constants";
 
 interface DocumentsListProps {
   type?: "employed" | "selfEmployed" | "both";
-  lang?: "ms" | "en";
+  lang?: "ms" | "en" | "zh";
 }
 
 export function DocumentsList({ type = "both", lang = "en" }: DocumentsListProps) {
@@ -16,6 +16,10 @@ export function DocumentsList({ type = "both", lang = "en" }: DocumentsListProps
     en: {
       employed: "Salaried Employee",
       selfEmployed: "Self-Employed",
+    },
+    zh: {
+      employed: "受薪员工",
+      selfEmployed: "自雇人士",
     },
   };
 
