@@ -11,7 +11,7 @@ export default function Footer() {
       { name: "Debt Consolidation", href: "/debt-consolidation-malaysia" },
       { name: "Refinance Calculator", href: "/calculator" },
       { name: "Cash Out Calculator", href: "/cash-out-calculator" },
-      { name: "How Refinancing Works", href: "/#how-it-works" },
+      { name: "Debt Consolidation Calculator", href: "/debt-consolidation-calculator" },
     ],
     banks: [
       { name: "Maybank Refinance", href: "/maybank-refinance-home-loan" },

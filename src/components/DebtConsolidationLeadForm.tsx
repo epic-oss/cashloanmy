@@ -3,9 +3,14 @@
 import { useState } from "react";
 import { formatNumberWithCommas, stripCommas } from "@/lib/utils";
 
+export interface DebtConsolidationLeadFormInitialValues {
+  totalDebt?: string;
+}
+
 interface DebtConsolidationLeadFormProps {
   variant?: "hero" | "modal" | "inline";
   source?: string;
+  initialValues?: DebtConsolidationLeadFormInitialValues;
 }
 
 const banks = [
@@ -37,13 +42,14 @@ const debtTypes = [
 export default function DebtConsolidationLeadForm({
   variant = "modal",
   source = "debt-consolidation",
+  initialValues,
 }: DebtConsolidationLeadFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     WhatsApp: "",
     PropertyValue: "",
     Outstanding: "",
-    TotalDebt: "",
+    TotalDebt: initialValues?.totalDebt || "",
     CurrentBank: "",
     DebtTypes: [] as string[],
   });

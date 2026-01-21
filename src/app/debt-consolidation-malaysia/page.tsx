@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { SITE_CONFIG } from "@/lib/constants";
-import DebtConsolidationLeadForm from "@/components/DebtConsolidationLeadForm";
+import DebtConsolidationLeadForm, { DebtConsolidationLeadFormInitialValues } from "@/components/DebtConsolidationLeadForm";
+import DebtConsolidationCalculator, { DebtConsolidationCalculatorValues } from "@/components/DebtConsolidationCalculator";
 import MidPageCTA from "@/components/MidPageCTA";
 import BackToTop from "@/components/BackToTop";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
@@ -66,6 +67,19 @@ const debtTypes = [
 export default function DebtConsolidationPage() {
   const [showForm, setShowForm] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [formInitialDebt, setFormInitialDebt] = useState<string | undefined>(undefined);
+
+  // Handler for when user clicks CTA from calculator
+  const handleCalculatorQuote = (values: DebtConsolidationCalculatorValues) => {
+    setFormInitialDebt(values.totalDebt);
+    setShowForm(true);
+  };
+
+  // Handler for regular CTA clicks (no pre-fill)
+  const handleRegularQuote = () => {
+    setFormInitialDebt(undefined);
+    setShowForm(true);
+  };
 
   return (
     <>
@@ -88,19 +102,23 @@ export default function DebtConsolidationPage() {
           </p>
           <div className="flex flex-wrap gap-4">
             <button
-              onClick={() => setShowForm(true)}
+              onClick={handleRegularQuote}
               className="inline-flex items-center gap-2 bg-white text-green-700 font-semibold px-6 py-3 rounded-full hover:bg-green-50 transition-all hover:scale-105"
             >
               Get Your Debt-Free Quote
               <ArrowRight className="w-5 h-5" />
             </button>
-            <Link
-              href="/calculator"
-              className="inline-flex items-center gap-2 bg-green-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-green-500 transition-all border border-green-400"
+            <a
+              href="#debt-calculator"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('debt-calculator')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-2 bg-green-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-green-500 transition-all border border-green-400 cursor-pointer"
             >
               <Calculator className="w-5 h-5" />
               Calculate Savings
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -207,55 +225,12 @@ export default function DebtConsolidationPage() {
             </div>
           </section>
 
-          {/* Debt Consolidation Calculator Example */}
-          <section className="mb-12">
+          {/* Debt Consolidation Savings Calculator */}
+          <section id="debt-calculator" className="mb-12 scroll-mt-20">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              How Much Can You Save? Real Example
+              How Much Can You Save? Calculate Now
             </h2>
-
-            <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-xl p-6 md:p-8 text-white mb-6">
-              <div className="flex items-center gap-3 mb-4">
-                <Calculator className="w-8 h-8" />
-                <h3 className="text-2xl font-bold">RM50,000 Credit Card Debt</h3>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-white/10 rounded-lg p-4">
-                  <h4 className="font-semibold mb-3">Paying Credit Card at 18%:</h4>
-                  <ul className="space-y-2 text-green-100">
-                    <li>Monthly interest: <strong className="text-white">RM750</strong></li>
-                    <li>Minimum payment (5%): <strong className="text-white">RM2,500</strong></li>
-                    <li>Years to pay off: <strong className="text-white">~10 years</strong></li>
-                    <li>Total interest paid: <strong className="text-red-300">RM45,000+</strong></li>
-                  </ul>
-                </div>
-                <div className="bg-white/10 rounded-lg p-4">
-                  <h4 className="font-semibold mb-3">Cash-Out Refinance at 4%:</h4>
-                  <ul className="space-y-2 text-green-100">
-                    <li>Monthly interest: <strong className="text-white">RM167</strong></li>
-                    <li>Monthly payment (10yr): <strong className="text-white">RM506</strong></li>
-                    <li>Years to pay off: <strong className="text-white">10 years</strong></li>
-                    <li>Total interest paid: <strong className="text-green-300">RM10,700</strong></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="mt-6 bg-white rounded-lg p-4 text-center">
-                <p className="text-green-700 text-sm mb-1">Your Monthly Savings</p>
-                <p className="text-4xl font-bold text-green-700">RM583</p>
-                <p className="text-green-600 text-sm">per month in interest alone</p>
-              </div>
-            </div>
-
-            <div className="text-center">
-              <button
-                onClick={() => setShowForm(true)}
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-4 rounded-lg transition-colors text-lg"
-              >
-                Calculate My Savings
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
+            <DebtConsolidationCalculator onGetQuote={handleCalculatorQuote} />
           </section>
 
           {/* 3 Ways to Consolidate */}
@@ -383,7 +358,7 @@ export default function DebtConsolidationPage() {
               Find out how much you can save by consolidating all your debts into one low-interest payment.
             </p>
             <button
-              onClick={() => setShowForm(true)}
+              onClick={handleRegularQuote}
               className="inline-flex items-center gap-2 bg-white text-green-700 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors text-lg"
             >
               Get Your Debt-Free Quote
@@ -637,7 +612,7 @@ export default function DebtConsolidationPage() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button
-              onClick={() => setShowForm(true)}
+              onClick={handleRegularQuote}
               className="inline-flex items-center gap-2 bg-white text-green-700 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors text-lg"
             >
               Get Your Debt-Free Quote
@@ -665,7 +640,7 @@ export default function DebtConsolidationPage() {
               >
                 <X className="w-6 h-6" />
               </button>
-              <DebtConsolidationLeadForm variant="modal" source="debt-consolidation" />
+              <DebtConsolidationLeadForm variant="modal" source="debt-consolidation" initialValues={formInitialDebt ? { totalDebt: formInitialDebt } : undefined} />
             </div>
           </div>
         </div>
