@@ -4,8 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { SITE_CONFIG, getBanksSortedByRate } from "@/lib/constants";
-import CashOutLeadForm from "@/components/CashOutLeadForm";
-import CashOutCalculatorWidget from "@/components/CashOutCalculatorWidget";
+import CashOutLeadForm, { CashOutLeadFormInitialValues } from "@/components/CashOutLeadForm";
+import CashOutCalculatorWidget, { CashOutCalculatorValues } from "@/components/CashOutCalculatorWidget";
 import MidPageCTA from "@/components/MidPageCTA";
 import BackToTop from "@/components/BackToTop";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
@@ -62,6 +62,25 @@ const faqs = [
 export default function CashOutRefinancePage() {
   const [showForm, setShowForm] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [formInitialValues, setFormInitialValues] = useState<CashOutLeadFormInitialValues | undefined>(undefined);
+
+  // Handler for when user clicks "Get Exact Quote" from calculator
+  const handleCalculatorQuote = (values: CashOutCalculatorValues) => {
+    setFormInitialValues({
+      propertyValue: values.propertyValue,
+      outstandingLoan: values.outstandingLoan,
+      cashOutNeeded: values.maxCashOut > 0 ? values.maxCashOut.toLocaleString("en-MY") : "",
+      calculatedMaxCashout: values.maxCashOut,
+      calculatedEquity: values.equity,
+    });
+    setShowForm(true);
+  };
+
+  // Handler for regular CTA clicks (no pre-fill)
+  const handleRegularQuote = () => {
+    setFormInitialValues(undefined);
+    setShowForm(true);
+  };
 
   return (
     <>
@@ -84,7 +103,7 @@ export default function CashOutRefinancePage() {
           </p>
           <div className="flex flex-wrap gap-4">
             <button
-              onClick={() => setShowForm(true)}
+              onClick={handleRegularQuote}
               className="inline-flex items-center gap-2 bg-white text-secondary-700 font-semibold px-6 py-3 rounded-full hover:bg-secondary-50 transition-all hover:scale-105"
             >
               Get Cash Out Quote
@@ -186,7 +205,7 @@ export default function CashOutRefinancePage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Cash Out Refinance Calculator
             </h2>
-            <CashOutCalculatorWidget onGetQuote={() => setShowForm(true)} />
+            <CashOutCalculatorWidget onGetQuote={handleCalculatorQuote} />
           </section>
 
           {/* How Much Can You Get */}
@@ -891,7 +910,7 @@ export default function CashOutRefinancePage() {
               >
                 <X className="w-6 h-6" />
               </button>
-              <CashOutLeadForm variant="modal" source="cash-out-refinance" />
+              <CashOutLeadForm variant="modal" source="cash-out-refinance" initialValues={formInitialValues} />
             </div>
           </div>
         </div>
@@ -941,7 +960,7 @@ export default function CashOutRefinancePage() {
 
       <BackToTop />
       <StickyMobileCTA
-        onCtaClick={() => setShowForm(true)}
+        onCtaClick={handleRegularQuote}
         text="Get cash from your equity"
         buttonText="Get Quote"
       />

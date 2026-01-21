@@ -4,8 +4,15 @@ import { useState } from "react";
 import { formatNumberWithCommas, stripCommas } from "@/lib/utils";
 import { Calculator, ArrowRight } from "lucide-react";
 
+export interface CashOutCalculatorValues {
+  propertyValue: string;
+  outstandingLoan: string;
+  maxCashOut: number;
+  equity: number;
+}
+
 interface CashOutCalculatorWidgetProps {
-  onGetQuote?: () => void;
+  onGetQuote?: (values: CashOutCalculatorValues) => void;
 }
 
 export default function CashOutCalculatorWidget({ onGetQuote }: CashOutCalculatorWidgetProps) {
@@ -105,7 +112,12 @@ export default function CashOutCalculatorWidget({ onGetQuote }: CashOutCalculato
       )}
 
       <button
-        onClick={onGetQuote}
+        onClick={() => onGetQuote?.({
+          propertyValue,
+          outstandingLoan,
+          maxCashOut,
+          equity,
+        })}
         className="w-full bg-secondary-600 hover:bg-secondary-700 text-white font-semibold py-4 rounded-lg transition-colors flex items-center justify-center gap-2 text-lg"
       >
         Get Exact Quote from Banks

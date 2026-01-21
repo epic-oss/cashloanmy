@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { SITE_CONFIG } from "@/lib/constants";
-import CashOutCalculatorWidget from "@/components/CashOutCalculatorWidget";
-import CashOutLeadForm from "@/components/CashOutLeadForm";
+import CashOutCalculatorWidget, { CashOutCalculatorValues } from "@/components/CashOutCalculatorWidget";
+import CashOutLeadForm, { CashOutLeadFormInitialValues } from "@/components/CashOutLeadForm";
 import BackToTop from "@/components/BackToTop";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import {
@@ -107,6 +107,25 @@ const useCases = [
 export default function CashOutCalculatorPage() {
   const [showForm, setShowForm] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [formInitialValues, setFormInitialValues] = useState<CashOutLeadFormInitialValues | undefined>(undefined);
+
+  // Handler for when user clicks "Get Exact Quote" from calculator
+  const handleCalculatorQuote = (values: CashOutCalculatorValues) => {
+    setFormInitialValues({
+      propertyValue: values.propertyValue,
+      outstandingLoan: values.outstandingLoan,
+      cashOutNeeded: values.maxCashOut > 0 ? values.maxCashOut.toLocaleString("en-MY") : "",
+      calculatedMaxCashout: values.maxCashOut,
+      calculatedEquity: values.equity,
+    });
+    setShowForm(true);
+  };
+
+  // Handler for regular CTA clicks (no pre-fill)
+  const handleRegularQuote = () => {
+    setFormInitialValues(undefined);
+    setShowForm(true);
+  };
 
   return (
     <>
@@ -130,7 +149,7 @@ export default function CashOutCalculatorPage() {
       {/* Main Calculator Section */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CashOutCalculatorWidget onGetQuote={() => setShowForm(true)} />
+          <CashOutCalculatorWidget onGetQuote={handleCalculatorQuote} />
         </div>
       </section>
 
@@ -278,7 +297,7 @@ export default function CashOutCalculatorPage() {
               This calculator gives you an estimate. Get a personalized quote from banks to know your exact cash-out amount.
             </p>
             <button
-              onClick={() => setShowForm(true)}
+              onClick={handleRegularQuote}
               className="inline-flex items-center gap-2 bg-white text-secondary-700 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors text-lg"
             >
               Get My Exact Quote
@@ -407,7 +426,7 @@ export default function CashOutCalculatorPage() {
             Get a free quote and find out exactly how much cash you can access from your property.
           </p>
           <button
-            onClick={() => setShowForm(true)}
+            onClick={handleRegularQuote}
             className="inline-flex items-center gap-2 bg-white text-secondary-700 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors text-lg"
           >
             Get Free Cash Out Quote
@@ -427,7 +446,7 @@ export default function CashOutCalculatorPage() {
               >
                 <X className="w-6 h-6" />
               </button>
-              <CashOutLeadForm variant="modal" source="cash-out-calculator" />
+              <CashOutLeadForm variant="modal" source="cash-out-calculator" initialValues={formInitialValues} />
             </div>
           </div>
         </div>
@@ -478,7 +497,7 @@ export default function CashOutCalculatorPage() {
 
       <BackToTop />
       <StickyMobileCTA
-        onCtaClick={() => setShowForm(true)}
+        onCtaClick={handleRegularQuote}
         text="Calculate your cash out"
         buttonText="Get Quote"
       />

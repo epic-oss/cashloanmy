@@ -3,9 +3,18 @@
 import { useState } from "react";
 import { formatNumberWithCommas, stripCommas } from "@/lib/utils";
 
+export interface CashOutLeadFormInitialValues {
+  propertyValue?: string;
+  outstandingLoan?: string;
+  cashOutNeeded?: string;
+  calculatedMaxCashout?: number;
+  calculatedEquity?: number;
+}
+
 interface CashOutLeadFormProps {
   variant?: "hero" | "modal" | "inline";
   source?: string;
+  initialValues?: CashOutLeadFormInitialValues;
 }
 
 const banks = [
@@ -40,15 +49,22 @@ const purposes = [
 export default function CashOutLeadForm({
   variant = "modal",
   source = "cash-out-refinance",
+  initialValues,
 }: CashOutLeadFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     WhatsApp: "",
-    PropertyValue: "",
-    Outstanding: "",
-    CashOutNeeded: "",
+    PropertyValue: initialValues?.propertyValue || "",
+    Outstanding: initialValues?.outstandingLoan || "",
+    CashOutNeeded: initialValues?.cashOutNeeded || "",
     CurrentBank: "",
     Purpose: "",
+  });
+
+  // Store calculated values from calculator for webhook
+  const [calculatedValues] = useState({
+    maxCashout: initialValues?.calculatedMaxCashout,
+    equity: initialValues?.calculatedEquity,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -99,6 +115,10 @@ export default function CashOutLeadForm({
         calculator_type: "cash_out_refinance",
         lead_type: "cash_out",
         site: "refinancehomeloanmy.com",
+        // Hidden fields from calculator (if values came from calculator)
+        calculated_max_cashout: calculatedValues.maxCashout?.toString() || "",
+        calculated_equity: calculatedValues.equity?.toString() || "",
+        prefilled_from_calculator: initialValues ? "yes" : "no",
       };
 
       const response = await fetch(
