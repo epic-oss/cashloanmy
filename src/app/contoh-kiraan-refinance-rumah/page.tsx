@@ -109,7 +109,7 @@ export default function ContohKiraanRefinanceRumah() {
             Panduan lengkap dengan contoh pengiraan sebenar untuk membantu anda
             membuat keputusan refinancing.
           </p>
-          <LastUpdated lang="ms" />
+          <LastUpdated lang="ms" variant="hero" />
         </div>
       </section>
 
@@ -117,14 +117,14 @@ export default function ContohKiraanRefinanceRumah() {
       <article className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Intro */}
-          <section className="prose prose-lg max-w-none mb-12">
-            <p>
+          <section className="mb-12">
+            <p className="text-lg text-gray-700 mb-4">
               Sebelum membuat keputusan refinance, penting untuk memahami
               pengiraan sebenar yang terlibat. Dalam panduan ini, kami kongsikan
               beberapa contoh kiraan refinance dengan senario berbeza supaya
               anda dapat membuat perbandingan yang jelas.
             </p>
-            <p>
+            <p className="text-lg text-gray-700">
               Semua contoh menggunakan kadar faedah semasa pasaran Malaysia pada{" "}
               {currentYear}. Kadar sebenar anda mungkin berbeza bergantung
               kepada profil kredit dan bank yang dipilih.

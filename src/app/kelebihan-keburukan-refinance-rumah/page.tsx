@@ -205,7 +205,7 @@ export default function KelebihanKeburukanRefinanceRumah() {
             Ketahui pro dan kontra sebelum membuat keputusan refinancing yang
             bijak.
           </p>
-          <LastUpdated lang="ms" />
+          <LastUpdated lang="ms" variant="hero" />
         </div>
       </section>
 
@@ -213,15 +213,15 @@ export default function KelebihanKeburukanRefinanceRumah() {
       <article className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Intro */}
-          <section className="prose prose-lg max-w-none mb-12">
-            <p>
+          <section className="mb-12">
+            <p className="text-lg text-gray-700 mb-4">
               Refinance rumah adalah proses menggantikan pinjaman perumahan
               sedia ada dengan pinjaman baru, biasanya dengan kadar faedah yang
               lebih rendah atau terma yang lebih baik. Seperti keputusan
               kewangan lain, refinancing mempunyai kelebihan dan keburukan yang
               perlu ditimbangkan dengan teliti.
             </p>
-            <p>
+            <p className="text-lg text-gray-700">
               Dalam panduan ini, kami kongsikan secara terperinci tentang
               kebaikan dan keburukan refinance rumah, bila ia berbaloi, dan bila
               anda patut mengelaknya. Maklumat ini akan membantu anda membuat

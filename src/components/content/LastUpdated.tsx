@@ -2,16 +2,19 @@ import { SITE_CONFIG } from "@/lib/constants";
 
 interface LastUpdatedProps {
   lang?: "ms" | "en";
+  variant?: "default" | "hero";
 }
 
-export function LastUpdated({ lang = "en" }: LastUpdatedProps) {
+export function LastUpdated({ lang = "en", variant = "default" }: LastUpdatedProps) {
   const text =
     lang === "ms"
       ? `Dikemaskini: ${SITE_CONFIG.lastUpdated}`
       : `Updated: ${SITE_CONFIG.lastUpdatedEn}`;
 
+  const colorClass = variant === "hero" ? "text-white/70" : "text-gray-500";
+
   return (
-    <div className="flex items-center gap-2 text-sm text-gray-500 my-4">
+    <div className={`flex items-center gap-2 text-sm ${colorClass} my-4`}>
       <svg
         className="w-4 h-4"
         fill="none"

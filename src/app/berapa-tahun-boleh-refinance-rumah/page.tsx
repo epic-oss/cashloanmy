@@ -105,7 +105,7 @@ export default function BerapaTahunBolehRefinanceRumah() {
             Panduan lengkap tentang tempoh, syarat, dan waktu terbaik untuk
             refinance pinjaman perumahan anda.
           </p>
-          <LastUpdated lang="ms" />
+          <LastUpdated lang="ms" variant="hero" />
         </div>
       </section>
 
@@ -131,14 +131,14 @@ export default function BerapaTahunBolehRefinanceRumah() {
       <article className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Intro */}
-          <section className="prose prose-lg max-w-none mb-12">
-            <p>
+          <section className="mb-12">
+            <p className="text-lg text-gray-700 mb-4">
               Ramai pemilik rumah tertanya-tanya bilakah masa yang sesuai untuk
               refinance pinjaman perumahan mereka. Jawapannya bergantung kepada
               beberapa faktor termasuk tempoh lock-in, kadar faedah semasa, dan
               situasi kewangan anda.
             </p>
-            <p>
+            <p className="text-lg text-gray-700">
               Dalam panduan ini, kami jelaskan secara terperinci tentang tempoh
               minimum, penalti lock-in, dan waktu terbaik untuk refinance rumah
               di Malaysia.

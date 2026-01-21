@@ -182,7 +182,7 @@ export default function DokumenRefinanceRumah() {
             Panduan lengkap dokumen yang diperlukan untuk memastikan permohonan
             refinance anda berjaya.
           </p>
-          <LastUpdated lang="ms" />
+          <LastUpdated lang="ms" variant="hero" />
         </div>
       </section>
 
@@ -190,14 +190,14 @@ export default function DokumenRefinanceRumah() {
       <article className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Intro */}
-          <section className="prose prose-lg max-w-none mb-12">
-            <p>
+          <section className="mb-12">
+            <p className="text-lg text-gray-700 mb-4">
               Menyediakan dokumen yang lengkap dan tepat adalah kunci kepada
               permohonan refinance yang lancar dan cepat diluluskan. Dokumen
               yang tidak lengkap adalah antara punca utama kelewatan atau
               penolakan permohonan.
             </p>
-            <p>
+            <p className="text-lg text-gray-700">
               Dalam panduan ini, kami senaraikan semua dokumen yang diperlukan
               untuk refinance rumah di Malaysia, dengan tips untuk mempercepatkan
               proses permohonan anda.

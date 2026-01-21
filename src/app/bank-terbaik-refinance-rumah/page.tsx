@@ -68,7 +68,7 @@ export default function BankTerbaikRefinanceRumah() {
             Panduan lengkap untuk memilih bank terbaik bagi refinance pinjaman
             perumahan anda.
           </p>
-          <LastUpdated lang="ms" />
+          <LastUpdated lang="ms" variant="hero" />
         </div>
       </section>
 
@@ -76,15 +76,15 @@ export default function BankTerbaikRefinanceRumah() {
       <article className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Intro */}
-          <section className="prose prose-lg max-w-none mb-12">
-            <p>
+          <section className="mb-12">
+            <p className="text-lg text-gray-700 mb-4">
               Memilih bank yang tepat untuk refinance rumah adalah keputusan
               kewangan yang penting. Dengan perbezaan kadar faedah yang kecil
               pun boleh menjimatkan puluhan ribu ringgit sepanjang tempoh
               pinjaman anda. Di Malaysia, terdapat lebih 10 bank utama yang
               menawarkan pakej refinancing dengan kadar dan terma yang berbeza.
             </p>
-            <p>
+            <p className="text-lg text-gray-700">
               Dalam panduan komprehensif ini, kami bandingkan kadar refinance
               dari semua bank utama di Malaysia untuk membantu anda membuat
               keputusan yang tepat. Data kadar dikemaskini secara berkala untuk
