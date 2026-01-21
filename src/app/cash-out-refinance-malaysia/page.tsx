@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { SITE_CONFIG, getBanksSortedByRate } from "@/lib/constants";
-import LeadForm from "@/components/LeadForm";
+import CashOutLeadForm from "@/components/CashOutLeadForm";
+import CashOutCalculatorWidget from "@/components/CashOutCalculatorWidget";
 import MidPageCTA from "@/components/MidPageCTA";
 import BackToTop from "@/components/BackToTop";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
@@ -176,28 +177,12 @@ export default function CashOutRefinancePage() {
             </div>
           </section>
 
-          {/* Calculator CTA */}
+          {/* Cash Out Calculator Widget */}
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Cash Out Refinance Calculator
             </h2>
-            <div className="bg-gradient-to-r from-secondary-600 to-primary-600 rounded-xl p-8 text-white">
-              <div className="flex items-center gap-3 mb-4">
-                <Calculator className="w-8 h-8" />
-                <h3 className="text-2xl font-bold">Calculate Your Cash Out Amount</h3>
-              </div>
-              <p className="text-white/90 mb-6">
-                Find out how much cash you can access from your property equity. Enter your property
-                value and current loan balance to see your potential cash-out amount instantly.
-              </p>
-              <Link
-                href="/calculator"
-                className="inline-flex items-center gap-2 bg-white text-secondary-700 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors text-lg"
-              >
-                Open Cash Out Calculator
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
+            <CashOutCalculatorWidget onGetQuote={() => setShowForm(true)} />
           </section>
 
           {/* How Much Can You Get */}
@@ -895,17 +880,14 @@ export default function CashOutRefinancePage() {
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold">Get Cash Out Quote</h3>
-                <button
-                  onClick={() => setShowForm(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              <LeadForm variant="modal" source="cash-out-refinance" lang="en" />
+            <div className="p-6 relative">
+              <button
+                onClick={() => setShowForm(false)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <CashOutLeadForm variant="modal" source="cash-out-refinance" />
             </div>
           </div>
         </div>
