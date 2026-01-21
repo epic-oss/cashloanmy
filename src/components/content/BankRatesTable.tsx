@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { SITE_CONFIG, getBanksSortedByRate, BankInfo } from "@/lib/constants";
 import { useState } from "react";
 
@@ -88,12 +89,31 @@ export function BankRatesTable({
                 className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
               >
                 <td className="p-3">
-                  <span className="font-medium">{bank.name}</span>
-                  {bank.isIslamic && (
-                    <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">
-                      Islamic
-                    </span>
-                  )}
+                  <div className="flex items-center gap-3">
+                    {bank.logo ? (
+                      <div className="w-[80px] h-[32px] relative flex-shrink-0">
+                        <Image
+                          src={bank.logo}
+                          alt={`${bank.name} logo`}
+                          fill
+                          className="object-contain"
+                          sizes="80px"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-[80px] h-[32px] bg-gray-100 rounded flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-medium text-gray-500">{bank.name.substring(0, 3).toUpperCase()}</span>
+                      </div>
+                    )}
+                    <div>
+                      <span className="font-medium">{bank.name}</span>
+                      {bank.isIslamic && (
+                        <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">
+                          Islamic
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </td>
                 <td className="p-3">
                   <span className="text-secondary-600 font-semibold">
