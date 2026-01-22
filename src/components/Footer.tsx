@@ -18,6 +18,7 @@ export default function Footer() {
       { name: "Cash Out Refinance", href: "/cash-out-refinance-malaysia" },
       { name: "Refinance Calculator", href: "/calculator" },
       { name: "Cash Out Calculator", href: "/cash-out-calculator" },
+      { name: "DSR Calculator", href: "/dsr-calculator" },
     ],
     banks: [
       { name: "Maybank Refinance", href: "/maybank-refinance-home-loan" },

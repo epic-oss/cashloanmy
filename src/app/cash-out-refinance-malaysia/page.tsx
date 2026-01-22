@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { SITE_CONFIG, getBanksSortedByRate } from "@/lib/constants";
 import CashOutLeadForm, { CashOutLeadFormInitialValues } from "@/components/CashOutLeadForm";
 import CashOutCalculatorWidget, { CashOutCalculatorValues } from "@/components/CashOutCalculatorWidget";
+import CashOutSocialProof from "@/components/CashOutSocialProof";
 import MidPageCTA from "@/components/MidPageCTA";
 import BackToTop from "@/components/BackToTop";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
@@ -17,12 +17,14 @@ import {
   AlertTriangle,
   Home,
   CreditCard,
-  PiggyBank,
   Briefcase,
   Clock,
   FileText,
   TrendingUp,
   AlertCircle,
+  Percent,
+  Banknote,
+  Timer,
 } from "lucide-react";
 
 const { currentYear } = SITE_CONFIG;
@@ -84,65 +86,67 @@ export default function CashOutRefinancePage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-secondary-700 to-secondary-800 text-white py-12 md:py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-secondary-200 mb-4">
-            <Home className="w-5 h-5" />
-            <span className="text-sm">Property Equity Release</span>
-          </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Cash Out Refinance Malaysia {currentYear} - How to Get Cash from Your Property Equity
-          </h1>
-          <p className="text-lg text-secondary-100 mb-2">
-            Turn your home equity into cash. Learn how cash-out refinancing works, how much you can get,
-            and which banks offer the best terms.
-          </p>
-          <p className="text-sm text-secondary-200 mb-6">
-            Updated: {SITE_CONFIG.lastUpdatedEn}
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <button
-              onClick={handleRegularQuote}
-              className="inline-flex items-center gap-2 bg-white text-secondary-700 font-semibold px-6 py-3 rounded-full hover:bg-secondary-50 transition-all hover:scale-105"
-            >
-              Get Cash Out Quote
-              <ArrowRight className="w-5 h-5" />
-            </button>
-            <a
-              href="#cash-out-calculator"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('cash-out-calculator')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="inline-flex items-center gap-2 bg-secondary-600 text-white font-semibold px-6 py-3 rounded-full hover:bg-secondary-500 transition-all border border-secondary-400 cursor-pointer"
-            >
-              <Calculator className="w-5 h-5" />
-              Calculate Now
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* Social Proof Notification */}
+      <CashOutSocialProof />
 
-      {/* Quick Stats */}
-      <section className="bg-white border-b">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+      {/* Hero Section - Conversion Focused */}
+      <section className="bg-gradient-to-br from-secondary-800 via-secondary-900 to-secondary-800 text-white py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Headline & Trust Badges */}
             <div>
-              <p className="text-3xl font-bold text-secondary-600">90%</p>
-              <p className="text-sm text-gray-600">Max LTV</p>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                Get Up to <span className="text-green-400">RM500,000</span> Cash from Your Property
+              </h1>
+              <p className="text-xl text-gray-300 mt-6">
+                Turn your home equity into cash for renovations, debt consolidation, or investments. Rates from 3.65%.
+              </p>
+
+              {/* Trust Badges */}
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="flex flex-col items-center text-center bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mb-2">
+                    <Percent className="w-6 h-6 text-green-400" />
+                  </div>
+                  <h3 className="font-semibold text-white">Up to 90% LTV</h3>
+                  <p className="text-sm text-gray-300">Get up to 90% of property value</p>
+                </div>
+                <div className="flex flex-col items-center text-center bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mb-2">
+                    <Banknote className="w-6 h-6 text-green-400" />
+                  </div>
+                  <h3 className="font-semibold text-white">RM100k-500k+</h3>
+                  <p className="text-sm text-gray-300">Typical cash out amounts</p>
+                </div>
+                <div className="flex flex-col items-center text-center bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mb-2">
+                    <Timer className="w-6 h-6 text-green-400" />
+                  </div>
+                  <h3 className="font-semibold text-white">6-10 Weeks</h3>
+                  <p className="text-sm text-gray-300">Fast processing time</p>
+                </div>
+              </div>
+
+              {/* Secondary CTA */}
+              <div className="mt-8">
+                <a
+                  href="#cash-out-calculator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('cash-out-calculator')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 font-semibold transition-colors"
+                >
+                  <Calculator className="w-5 h-5" />
+                  Calculate how much you can get
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
             </div>
-            <div>
-              <p className="text-3xl font-bold text-secondary-600">35 yrs</p>
-              <p className="text-sm text-gray-600">Max Tenure</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-secondary-600">3.65%</p>
-              <p className="text-sm text-gray-600">Rates From</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-secondary-600">6-10 wks</p>
-              <p className="text-sm text-gray-600">Processing</p>
+
+            {/* Right Column - Lead Form */}
+            <div id="quote-form">
+              <CashOutLeadForm variant="hero" source="cash-out-hero" />
             </div>
           </div>
         </div>

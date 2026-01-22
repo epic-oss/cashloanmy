@@ -4,6 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
+const calculatorData = {
+  items: [
+    { name: "Refinance Calculator", href: "/calculator" },
+    { name: "Cash Out Calculator", href: "/cash-out-calculator" },
+    { name: "Debt Consolidation Calculator", href: "/debt-consolidation-calculator" },
+    { name: "DSR Calculator", href: "/dsr-calculator" },
+  ],
+};
+
 const debtConsolidationData = {
   items: [
     { name: "Debt Consolidation Guide", href: "/debt-consolidation-malaysia" },
@@ -64,10 +73,13 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [guidesOpen, setGuidesOpen] = useState(false);
   const [debtOpen, setDebtOpen] = useState(false);
+  const [calcOpen, setCalcOpen] = useState(false);
   const [mobileGuidesOpen, setMobileGuidesOpen] = useState(false);
   const [mobileDebtOpen, setMobileDebtOpen] = useState(false);
+  const [mobileCalcOpen, setMobileCalcOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const debtDropdownRef = useRef<HTMLDivElement>(null);
+  const calcDropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -77,6 +89,9 @@ export default function Header() {
       }
       if (debtDropdownRef.current && !debtDropdownRef.current.contains(event.target as Node)) {
         setDebtOpen(false);
+      }
+      if (calcDropdownRef.current && !calcDropdownRef.current.contains(event.target as Node)) {
+        setCalcOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -110,12 +125,53 @@ export default function Header() {
             >
               Home
             </Link>
-            <Link
-              href="/calculator"
-              className="text-gray-700 hover:text-primary-800 font-medium transition-colors"
-            >
-              Calculator
-            </Link>
+
+            {/* Calculator Dropdown */}
+            <div className="relative" ref={calcDropdownRef}>
+              <button
+                onClick={() => setCalcOpen(!calcOpen)}
+                onMouseEnter={() => setCalcOpen(true)}
+                className="flex items-center gap-1 text-gray-700 hover:text-primary-800 font-medium transition-colors"
+              >
+                Calculator
+                <svg
+                  className={`w-4 h-4 transition-transform ${calcOpen ? "rotate-180" : ""}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              {/* Calculator Dropdown Menu */}
+              {calcOpen && (
+                <div
+                  className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-200 p-4"
+                  onMouseLeave={() => setCalcOpen(false)}
+                >
+                  <ul className="space-y-1">
+                    {calculatorData.items.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          className="text-sm text-gray-600 hover:text-primary-600 hover:bg-primary-50 block py-2 px-3 rounded transition-colors"
+                          onClick={() => setCalcOpen(false)}
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
             <Link
               href="/cash-out-refinance-malaysia"
               className="text-primary-600 hover:text-primary-800 font-semibold transition-colors"
@@ -280,17 +336,27 @@ export default function Header() {
                     </div>
                   </div>
 
-                  {/* Bottom CTA */}
-                  <div className="mt-6 pt-4 border-t border-gray-100">
+                  {/* Bottom Links */}
+                  <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <Link
+                      href="/guides"
+                      className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-primary-700"
+                      onClick={() => setGuidesOpen(false)}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                      </svg>
+                      View All Guides
+                    </Link>
                     <Link
                       href="/#quote-form"
-                      className="flex items-center justify-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700"
+                      className="flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700"
                       onClick={() => setGuidesOpen(false)}
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      Get Your Free Refinance Quote Today
+                      Get Free Quote
                     </Link>
                   </div>
                 </div>
@@ -356,13 +422,49 @@ export default function Header() {
               >
                 Home
               </Link>
-              <Link
-                href="/calculator"
-                className="text-gray-700 hover:text-primary-800 font-medium py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Calculator
-              </Link>
+
+              {/* Mobile Calculator Accordion */}
+              <div className="border-t border-gray-100 py-2">
+                <button
+                  onClick={() => setMobileCalcOpen(!mobileCalcOpen)}
+                  className="flex items-center justify-between w-full text-gray-700 hover:text-primary-800 font-medium py-2"
+                >
+                  <span>Calculator</span>
+                  <svg
+                    className={`w-4 h-4 transition-transform ${mobileCalcOpen ? "rotate-180" : ""}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+
+                {mobileCalcOpen && (
+                  <ul className="pl-4 space-y-1 mt-2">
+                    {calculatorData.items.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          className="text-sm text-gray-600 hover:text-primary-600 block py-1.5"
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            setMobileCalcOpen(false);
+                          }}
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
               <Link
                 href="/cash-out-refinance-malaysia"
                 className="text-primary-600 hover:text-primary-800 font-semibold py-2"
@@ -527,6 +629,20 @@ export default function Header() {
                           </li>
                         ))}
                       </ul>
+                    </div>
+
+                    {/* View All Guides Link */}
+                    <div className="pt-2 border-t border-gray-100">
+                      <Link
+                        href="/guides"
+                        className="text-sm font-medium text-primary-600 hover:text-primary-700 block py-2"
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          setMobileGuidesOpen(false);
+                        }}
+                      >
+                        View All Guides →
+                      </Link>
                     </div>
                   </div>
                 )}
