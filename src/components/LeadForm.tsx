@@ -92,20 +92,17 @@ export default function LeadForm({
 
     try {
       const payload = {
-        timestamp: new Date().toISOString(),
         name: formData.name,
-        WhatsApp: formData.WhatsApp.replace(/\s|-/g, ""),
-        Outstanding: stripCommas(formData.Outstanding),
-        CurrentBank: formData.CurrentBank,
-        source_url: typeof window !== "undefined" ? window.location.href : "",
-        source: "refinancehomeloanmy",
-        calculator_type: "refinance_home_loan",
+        phone: formData.WhatsApp.replace(/\s|-/g, ""),
         lead_type: "refinance",
-        site: "refinancehomeloanmy.com",
+        source_site: "RefinanceHomeLoanMY",
+        source_url: typeof window !== "undefined" ? window.location.href : "",
+        outstanding_loan: stripCommas(formData.Outstanding),
+        current_bank: formData.CurrentBank,
       };
 
       const response = await fetch(
-        "https://hook.us2.make.com/x41kcriuri5w5s8fkrfi6884hu05yhpe",
+        "https://hook.us2.make.com/nfivujhdjjwc7kd97ian2e9cus4acm80",
         {
           method: "POST",
           headers: {
@@ -155,7 +152,7 @@ export default function LeadForm({
   }
 
   const inputClasses =
-    "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all";
+    "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all text-gray-900 placeholder:text-gray-400 bg-white";
 
   return (
     <form

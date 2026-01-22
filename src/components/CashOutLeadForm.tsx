@@ -61,11 +61,6 @@ export default function CashOutLeadForm({
     Purpose: "",
   });
 
-  // Store calculated values from calculator for webhook
-  const [calculatedValues] = useState({
-    maxCashout: initialValues?.calculatedMaxCashout,
-    equity: initialValues?.calculatedEquity,
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -100,29 +95,21 @@ export default function CashOutLeadForm({
       const equity = propertyValue - outstanding;
 
       const payload = {
-        timestamp: new Date().toISOString(),
         name: formData.name,
-        WhatsApp: formData.WhatsApp.replace(/\s|-/g, ""),
-        PropertyValue: stripCommas(formData.PropertyValue),
-        Outstanding: stripCommas(formData.Outstanding),
-        CashOutNeeded: cashOutNeeded ? stripCommas(formData.CashOutNeeded) : "",
-        MaxCashOut: maxCashOut.toString(),
-        Equity: equity.toString(),
-        CurrentBank: formData.CurrentBank,
-        Purpose: formData.Purpose || "Not specified",
-        source_url: typeof window !== "undefined" ? window.location.href : "",
-        source: source,
-        calculator_type: "cash_out_refinance",
+        phone: formData.WhatsApp.replace(/\s|-/g, ""),
         lead_type: "cash_out",
-        site: "refinancehomeloanmy.com",
-        // Hidden fields from calculator (if values came from calculator)
-        calculated_max_cashout: calculatedValues.maxCashout?.toString() || "",
-        calculated_equity: calculatedValues.equity?.toString() || "",
-        prefilled_from_calculator: initialValues ? "yes" : "no",
+        source_site: "RefinanceHomeLoanMY",
+        source_url: typeof window !== "undefined" ? window.location.href : "",
+        property_value: stripCommas(formData.PropertyValue),
+        outstanding_loan: stripCommas(formData.Outstanding),
+        current_bank: formData.CurrentBank,
+        purpose: formData.Purpose || "",
+        max_cash_out: maxCashOut.toString(),
+        loan_amount: cashOutNeeded ? stripCommas(formData.CashOutNeeded) : "",
       };
 
       const response = await fetch(
-        "https://hook.us2.make.com/x41kcriuri5w5s8fkrfi6884hu05yhpe",
+        "https://hook.us2.make.com/nfivujhdjjwc7kd97ian2e9cus4acm80",
         {
           method: "POST",
           headers: {
@@ -172,7 +159,7 @@ export default function CashOutLeadForm({
   }
 
   const inputClasses =
-    "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-transparent outline-none transition-all";
+    "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-transparent outline-none transition-all text-gray-900 placeholder:text-gray-400 bg-white";
 
   return (
     <form

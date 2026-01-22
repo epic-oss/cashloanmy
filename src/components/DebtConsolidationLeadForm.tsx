@@ -89,34 +89,26 @@ export default function DebtConsolidationLeadForm({
     try {
       const propertyValue = parseFloat(stripCommas(formData.PropertyValue)) || 0;
       const outstanding = parseFloat(stripCommas(formData.Outstanding)) || 0;
-      const totalDebt = parseFloat(stripCommas(formData.TotalDebt)) || 0;
 
       // Calculate potential cash out (90% LTV - outstanding)
       const maxCashOut = Math.max(0, propertyValue * 0.9 - outstanding);
-      const equity = propertyValue - outstanding;
-      const canConsolidate = maxCashOut >= totalDebt;
 
       const payload = {
-        timestamp: new Date().toISOString(),
         name: formData.name,
-        WhatsApp: formData.WhatsApp.replace(/\s|-/g, ""),
-        PropertyValue: stripCommas(formData.PropertyValue),
-        Outstanding: stripCommas(formData.Outstanding),
-        TotalDebtToConsolidate: stripCommas(formData.TotalDebt),
-        MaxCashOut: maxCashOut.toString(),
-        Equity: equity.toString(),
-        CanConsolidateAllDebt: canConsolidate ? "Yes" : "No",
-        CurrentBank: formData.CurrentBank,
-        DebtTypes: formData.DebtTypes.join(", ") || "Not specified",
-        source_url: typeof window !== "undefined" ? window.location.href : "",
-        source: source,
-        calculator_type: "debt_consolidation",
+        phone: formData.WhatsApp.replace(/\s|-/g, ""),
         lead_type: "debt_consolidation",
-        site: "refinancehomeloanmy.com",
+        source_site: "RefinanceHomeLoanMY",
+        source_url: typeof window !== "undefined" ? window.location.href : "",
+        property_value: stripCommas(formData.PropertyValue),
+        outstanding_loan: stripCommas(formData.Outstanding),
+        current_bank: formData.CurrentBank,
+        total_debt: stripCommas(formData.TotalDebt),
+        max_cash_out: maxCashOut.toString(),
+        purpose: formData.DebtTypes.join(", ") || "",
       };
 
       const response = await fetch(
-        "https://hook.us2.make.com/x41kcriuri5w5s8fkrfi6884hu05yhpe",
+        "https://hook.us2.make.com/nfivujhdjjwc7kd97ian2e9cus4acm80",
         {
           method: "POST",
           headers: {
@@ -166,7 +158,7 @@ export default function DebtConsolidationLeadForm({
   }
 
   const inputClasses =
-    "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all";
+    "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-gray-900 placeholder:text-gray-400 bg-white";
 
   return (
     <form
