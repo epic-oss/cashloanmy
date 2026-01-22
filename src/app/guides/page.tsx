@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import LeadForm from "@/components/LeadForm";
 import { ArrowRight, Search, BookOpen, Calculator, Building2, Landmark, Globe, X } from "lucide-react";
@@ -319,8 +317,7 @@ export default function GuidesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
-      <Header />
-      <main className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -485,7 +482,7 @@ export default function GuidesPage() {
             </button>
           </div>
         </section>
-      </main>
+      </div>
 
       {/* Lead Form Modal */}
       {showForm && (
@@ -503,7 +500,6 @@ export default function GuidesPage() {
           </div>
         </div>
       )}
-      <Footer />
       <BackToTop />
     </>
   );
