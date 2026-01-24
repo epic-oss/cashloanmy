@@ -4,8 +4,9 @@
 // UPDATE ANNUALLY: Costs, eligibility criteria
 
 export const SITE_CONFIG = {
-  siteName: "RefinanceHomeLoanMY",
-  siteUrl: "https://refinancehomeloanmy.com",
+  siteName: "CashLoanMY",
+  siteUrl: "https://cashloanmy.com",
+  description: "Struggling to get loan approval? We help Malaysians with bad credit or low income get the cash loan they need through proper bank channels.",
   currentYear: new Date().getFullYear(),
   lastUpdated: "Januari 2026",
   lastUpdatedEn: "January 2026",
@@ -13,7 +14,7 @@ export const SITE_CONFIG = {
   // Contact
   contact: {
     whatsapp: "", // Add later
-    email: "hello@refinancehomeloanmy.com",
+    email: "hello@cashloanmy.com",
   },
 
   // Bank Rates - UPDATE THIS SECTION QUARTERLY

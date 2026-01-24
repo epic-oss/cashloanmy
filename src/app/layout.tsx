@@ -11,15 +11,15 @@ const inter = Inter({ subsets: ["latin"] });
 const currentYear = new Date().getFullYear();
 
 export const metadata: Metadata = {
-  title: `Refinance Home Loan Malaysia ${currentYear} - Compare Rates & Save`,
-  description: `Compare refinance home loan rates from Malaysia's top banks in ${currentYear}. Calculate your savings and get free quotes. Save RM500+/month on your mortgage.`,
-  keywords: "refinance home loan Malaysia, home loan refinancing, mortgage refinance, housing loan, Maybank home loan, CIMB home loan, Public Bank mortgage",
+  title: `Cash Loan Malaysia ${currentYear} — Get Approved Even With Bad Credit | CashLoanMY`,
+  description: "Rejected by banks? We help Malaysians with bad credit or low income get approved for cash loans through proper channels. Free consultation.",
+  keywords: "cash loan Malaysia, personal loan rejected, bad credit loan, low income loan, loan approval help, pinjaman peribadi",
   openGraph: {
-    title: `Refinance Home Loan Malaysia ${currentYear} - Compare Rates & Save`,
-    description: `Compare refinance home loan rates from Malaysia's top banks in ${currentYear}. Calculate your savings and get free quotes. Save RM500+/month on your mortgage.`,
+    title: `Cash Loan Malaysia ${currentYear} — Get Approved Even With Bad Credit | CashLoanMY`,
+    description: "Rejected by banks? We help Malaysians with bad credit or low income get approved for cash loans through proper channels. Free consultation.",
     type: "website",
     locale: "en_MY",
-    siteName: "RefinanceHomeLoanMY",
+    siteName: "CashLoanMY",
   },
   verification: {
     google: "hiucUvRoGjgciw2b04tBl30F0cAbNPnPYcpFiQsVg2A",
