@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: "CashLoanMY",
   },
   verification: {
-    google: "hiucUvRoGjgciw2b04tBl30F0cAbNPnPYcpFiQsVg2A",
+    google: "srm1R4qtShaH9kv5s0kr-D3TdlxDr8-3uxuEW2RfnsE",
   },
 };
 
