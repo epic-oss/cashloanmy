@@ -5,6 +5,28 @@ import readingTime from "reading-time";
 
 const contentDirectory = path.join(process.cwd(), "content");
 
+/**
+ * Replace {{year}} placeholder with current year
+ */
+export function processContent(content: string): string {
+  const currentYear = new Date().getFullYear().toString();
+  return content.replace(/\{\{year\}\}/g, currentYear);
+}
+
+/**
+ * Replace {{year}} in frontmatter fields (title, description)
+ */
+export function processFrontmatter<T extends { title?: string; description?: string }>(
+  frontmatter: T
+): T {
+  const currentYear = new Date().getFullYear().toString();
+  return {
+    ...frontmatter,
+    title: frontmatter.title?.replace(/\{\{year\}\}/g, currentYear),
+    description: frontmatter.description?.replace(/\{\{year\}\}/g, currentYear),
+  };
+}
+
 export interface ContentFrontmatter {
   title: string;
   description: string;
@@ -44,10 +66,14 @@ export function getContentBySlug(
   const { data, content } = matter(fileContents);
   const stats = readingTime(content);
 
+  // Process {{year}} placeholders
+  const processedContent = processContent(content);
+  const processedData = processFrontmatter(data);
+
   return {
     slug,
-    title: data.title || "",
-    description: data.description || "",
+    title: processedData.title || "",
+    description: processedData.description || "",
     publishedAt: data.publishedAt || new Date().toISOString(),
     updatedAt: data.updatedAt,
     author: data.author || "CashLoanMY Team",
@@ -56,7 +82,7 @@ export function getContentBySlug(
     featured: data.featured || false,
     image: data.image,
     readingTime: stats.text,
-    content,
+    content: processedContent,
   };
 }
 
@@ -80,10 +106,13 @@ export function getAllContent(folder: string): ContentMeta[] {
     const { data, content } = matter(fileContents);
     const stats = readingTime(content);
 
+    // Process {{year}} placeholders in frontmatter
+    const processedData = processFrontmatter(data);
+
     return {
       slug,
-      title: data.title || "",
-      description: data.description || "",
+      title: processedData.title || "",
+      description: processedData.description || "",
       publishedAt: data.publishedAt || new Date().toISOString(),
       updatedAt: data.updatedAt,
       author: data.author || "CashLoanMY Team",
