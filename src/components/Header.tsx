@@ -18,7 +18,8 @@ export default function Header() {
                 alt="CashLoanMY"
                 width={32}
                 height={32}
-                className="w-8 h-8"
+                className="w-8 h-8 flex-shrink-0"
+                unoptimized
               />
               <span className="text-xl font-semibold text-blue-900">
                 CashLoanMY
