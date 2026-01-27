@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 const messages = [
@@ -11,7 +10,6 @@ const messages = [
 ];
 
 export default function FloatingSocialProof() {
-  const pathname = usePathname();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Rotate through messages
@@ -22,11 +20,6 @@ export default function FloatingSocialProof() {
 
     return () => clearInterval(interval);
   }, []);
-
-  // Hide on homepage since form is already visible
-  if (pathname === "/") {
-    return null;
-  }
 
   const current = messages[currentIndex];
 
