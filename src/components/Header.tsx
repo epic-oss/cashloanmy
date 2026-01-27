@@ -51,6 +51,13 @@ export default function Header() {
             </Link>
 
             <Link
+              href="/reviews"
+              className="text-gray-700 hover:text-primary-800 font-medium transition-colors"
+            >
+              Reviews
+            </Link>
+
+            <Link
               href="/#quote-form"
               className="btn-primary text-sm py-2 px-4"
             >
@@ -124,6 +131,14 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Guides
+              </Link>
+
+              <Link
+                href="/reviews"
+                className="text-gray-700 hover:text-primary-800 font-medium py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Reviews
               </Link>
 
               <Link

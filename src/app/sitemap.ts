@@ -24,6 +24,12 @@ export default function sitemap() {
       changeFrequency: "weekly" as const,
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/reviews`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    },
   ];
 
   // Dynamic guide pages
@@ -35,5 +41,14 @@ export default function sitemap() {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...guidePages];
+  // Dynamic review pages
+  const reviewSlugs = getAllSlugs("reviews");
+  const reviewPages = reviewSlugs.map((slug) => ({
+    url: `${baseUrl}/reviews/${slug}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...guidePages, ...reviewPages];
 }
