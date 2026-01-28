@@ -47,17 +47,43 @@ export default function CashLoanLeadForm({
     setIsSubmitting(true);
     setError("");
 
-    // Validation
-    if (!formData.name || !formData.phone || !formData.loanAmount || !formData.employmentType) {
+    // Trim whitespace from inputs
+    const trimmedName = formData.name.trim();
+    const trimmedPhone = formData.phone.replace(/\s|-/g, "");
+    const loanAmountNumber = parseInt(stripCommas(formData.loanAmount), 10);
+
+    // Required fields validation
+    if (!trimmedName || !trimmedPhone || !formData.loanAmount || !formData.employmentType) {
       setError("Please fill in all required fields");
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Name validation (at least 2 characters, letters only)
+    if (trimmedName.length < 2) {
+      setError("Please enter a valid name (at least 2 characters)");
       setIsSubmitting(false);
       return;
     }
 
     // Phone validation (Malaysian format)
     const phoneRegex = /^(\+?6?01)[0-9]{8,9}$/;
-    if (!phoneRegex.test(formData.phone.replace(/\s|-/g, ""))) {
+    if (!phoneRegex.test(trimmedPhone)) {
       setError("Please enter a valid Malaysian phone number");
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Loan amount validation (must be a positive number, minimum RM1,000)
+    if (isNaN(loanAmountNumber) || loanAmountNumber < 1000) {
+      setError("Please enter a valid loan amount (minimum RM1,000)");
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Employment type validation
+    if (!employmentTypes.includes(formData.employmentType)) {
+      setError("Please select a valid employment type");
       setIsSubmitting(false);
       return;
     }
@@ -65,9 +91,9 @@ export default function CashLoanLeadForm({
     try {
       const payload = {
         "Timestamp": new Date().toISOString(),
-        "Name": formData.name,
-        "WhatsApp": formData.phone.replace(/\s|-/g, ""),
-        "Loan Amount": stripCommas(formData.loanAmount),
+        "Name": trimmedName,
+        "WhatsApp": trimmedPhone,
+        "Loan Amount": loanAmountNumber.toString(),
         "Employment Type": formData.employmentType,
         "Purpose": formData.loanPurpose || "",
         "Lead Type": "cash_loan",
