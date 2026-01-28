@@ -64,18 +64,19 @@ export default function CashLoanLeadForm({
 
     try {
       const payload = {
-        name: formData.name,
-        phone: formData.phone.replace(/\s|-/g, ""),
-        lead_type: "cash_loan",
-        source_site: "CashLoanMY",
-        source_url: typeof window !== "undefined" ? window.location.href : "",
-        loan_amount_needed: stripCommas(formData.loanAmount),
-        employment_type: formData.employmentType,
-        loan_purpose: formData.loanPurpose || "Not specified",
+        "Timestamp": new Date().toISOString(),
+        "Name": formData.name,
+        "WhatsApp": formData.phone.replace(/\s|-/g, ""),
+        "Loan Amount": stripCommas(formData.loanAmount),
+        "Employment Type": formData.employmentType,
+        "Purpose": formData.loanPurpose || "",
+        "Lead Type": "cash_loan",
+        "Source Site": "CashLoanMY",
+        "Source URL": typeof window !== "undefined" ? window.location.href : "",
       };
 
       const response = await fetch(
-        "https://hook.us2.make.com/nfivujhdjjwc7kd97ian2e9cus4acm80",
+        "https://hook.us2.make.com/n6pku9e732yp4epwm1sigt42vli62ipr",
         {
           method: "POST",
           headers: {
