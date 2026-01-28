@@ -3,9 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useLeadForm } from "@/context/LeadFormContext";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { openModal } = useLeadForm();
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -57,12 +59,12 @@ export default function Header() {
               Reviews
             </Link>
 
-            <Link
-              href="/#quote-form"
+            <button
+              onClick={openModal}
               className="btn-primary text-sm py-2 px-4"
             >
               Get Free Quote
-            </Link>
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -141,13 +143,15 @@ export default function Header() {
                 Reviews
               </Link>
 
-              <Link
-                href="/#quote-form"
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openModal();
+                }}
                 className="btn-primary text-center text-sm py-2 mt-2"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 Get Free Quote
-              </Link>
+              </button>
             </div>
           </div>
         )}

@@ -1,11 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { useLeadForm } from "@/context/LeadFormContext";
 
 export default function FloatingCTA() {
+  const { openModal } = useLeadForm();
+
   return (
-    <Link
-      href="/#quote-form"
+    <button
+      onClick={openModal}
       className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 bg-green-500 hover:bg-green-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 rounded-full flex items-center gap-2 px-4 py-3 md:px-6 md:py-3"
     >
       {/* Icon - always visible */}
@@ -25,6 +27,6 @@ export default function FloatingCTA() {
       {/* Text */}
       <span className="hidden sm:inline">Apply Loan Now</span>
       <span className="sm:hidden">Apply Now</span>
-    </Link>
+    </button>
   );
 }

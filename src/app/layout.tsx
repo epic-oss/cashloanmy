@@ -8,6 +8,8 @@ import FloatingSocialProof from "@/components/FloatingSocialProof";
 import BackToTop from "@/components/BackToTop";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { LeadFormProvider } from "@/context/LeadFormContext";
+import LeadFormModal from "@/components/LeadFormModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,14 +42,17 @@ export default function RootLayout({
         <link rel="icon" type="image/png" href="/logo-icon.png" />
       </head>
       <body className={inter.className}>
-        <GoogleAnalytics />
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        <FloatingCTA />
-        <FloatingSocialProof />
-        <BackToTop />
-        <SpeedInsights />
+        <LeadFormProvider>
+          <GoogleAnalytics />
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <FloatingCTA />
+          <FloatingSocialProof />
+          <BackToTop />
+          <LeadFormModal />
+          <SpeedInsights />
+        </LeadFormProvider>
       </body>
     </html>
   );

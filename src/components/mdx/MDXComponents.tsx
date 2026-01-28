@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ReactNode, HTMLAttributes, AnchorHTMLAttributes } from "react";
 import { MDXComponents } from "mdx/types";
+import CTAButton from "./CTAButton";
 
 /**
  * DynamicYear - Renders the current year
@@ -95,25 +96,18 @@ interface CTABoxProps {
   title?: string;
   description?: string;
   buttonText?: string;
-  buttonLink?: string;
 }
 
 export function CTABox({
   title = "Need Help Getting Approved?",
   description = "Our specialists can review your profile and guide you to the right loan.",
   buttonText = "Get Free Consultation",
-  buttonLink = "/#quote-form",
 }: CTABoxProps) {
   return (
     <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-xl p-6 my-8 text-white">
       <h3 className="text-xl font-bold mb-2">{title}</h3>
       <p className="text-primary-100 mb-4">{description}</p>
-      <Link
-        href={buttonLink}
-        className="inline-block bg-white text-primary-700 font-semibold px-6 py-2 rounded-lg hover:bg-primary-50 transition-colors"
-      >
-        {buttonText}
-      </Link>
+      <CTAButton text={buttonText} />
     </div>
   );
 }
