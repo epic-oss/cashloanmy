@@ -6,6 +6,7 @@ import FAQ from "@/components/FAQ";
 import BackToTop from "@/components/BackToTop";
 import Link from "next/link";
 import { formatNumberWithCommas, stripCommas } from "@/lib/utils";
+import { generateWebApplicationSchema } from "@/lib/schema";
 
 const currentYear = new Date().getFullYear();
 const pageTitle = `Cash Loan Calculator Malaysia ${currentYear} — Calculate Your Monthly Repayment`;
@@ -83,8 +84,16 @@ export default function CalculatorPage() {
     });
   };
 
+  const webAppSchema = generateWebApplicationSchema();
+
   return (
     <>
+      {/* WebApplication Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
+
       {/* Hero */}
       <section className="bg-gradient-to-br from-primary-800 to-primary-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

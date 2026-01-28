@@ -5,6 +5,11 @@ import Link from "next/link";
 import { getContentBySlug, getAllSlugs } from "@/lib/mdx";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
 import BackToTop from "@/components/BackToTop";
+import {
+  generateArticleSchema,
+  generateFAQSchema,
+  loanAppReviewFAQs,
+} from "@/lib/schema";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -62,60 +67,17 @@ export default async function ReviewPage({ params }: PageProps) {
       })
     : null;
 
-  // Article structured data for review
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": content.title,
-    "description": content.description,
-    "author": {
-      "@type": "Organization",
-      "name": content.author || "CashLoanMY",
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "CashLoanMY",
-      "url": "https://cashloanmy.com",
-    },
-    "datePublished": content.publishedAt,
-    "dateModified": content.updatedAt || content.publishedAt,
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": `https://cashloanmy.com/reviews/${slug}`,
-    },
-  };
+  // Generate structured data using helpers
+  const articleSchema = generateArticleSchema({
+    title: content.title,
+    description: content.description,
+    publishedAt: content.publishedAt,
+    updatedAt: content.updatedAt || content.publishedAt,
+    author: content.author,
+    url: `https://cashloanmy.com/reviews/${slug}`,
+  });
 
-  // FAQ structured data - common questions for loan app reviews
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What are the best loan apps in Malaysia?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The best loan apps in Malaysia include TNG GOpinjam (backed by Touch 'n Go), AEON iCash, Atome Cash, and ShopeePay Pinjam. These are legitimate apps backed by established companies with reasonable interest rates ranging from 12-24% p.a.",
-        },
-      },
-      {
-        "@type": "Question",
-        "name": "Are loan apps safe to use in Malaysia?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Major loan apps backed by established companies (TNG, AEON, Atome) are generally safe. Avoid apps that ask for upfront fees, guarantee 100% approval, or request excessive phone permissions. Always check if the lender is licensed by Bank Negara Malaysia.",
-        },
-      },
-      {
-        "@type": "Question",
-        "name": "What interest rates do loan apps charge in Malaysia?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Loan app interest rates in Malaysia typically range from 12% to 36% per annum, depending on your credit profile. This is higher than bank rates (6-8% p.a.) but more accessible for those who don't qualify for bank loans.",
-        },
-      },
-    ],
-  };
+  const faqSchema = generateFAQSchema(loanAppReviewFAQs);
 
   return (
     <>

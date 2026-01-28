@@ -3,6 +3,7 @@ import CashLoanLeadForm from "@/components/CashLoanLeadForm";
 import FAQ from "@/components/FAQ";
 import BackToTop from "@/components/BackToTop";
 import Link from "next/link";
+import { generateOrganizationSchema } from "@/lib/schema";
 
 const currentYear = new Date().getFullYear();
 
@@ -48,8 +49,16 @@ const cashLoanFaqs = [
 ];
 
 export default function Home() {
+  const organizationSchema = generateOrganizationSchema();
+
   return (
     <>
+      {/* Organization Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-800 via-primary-900 to-primary-800 text-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

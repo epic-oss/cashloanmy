@@ -5,6 +5,11 @@ import Link from "next/link";
 import { getContentBySlug, getAllSlugs } from "@/lib/mdx";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
 import BackToTop from "@/components/BackToTop";
+import {
+  generateArticleSchema,
+  generateFAQSchema,
+  loanGuideFAQs,
+} from "@/lib/schema";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -62,60 +67,17 @@ export default async function GuidePage({ params }: PageProps) {
       })
     : null;
 
-  // Article structured data
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": content.title,
-    "description": content.description,
-    "author": {
-      "@type": "Organization",
-      "name": content.author || "CashLoanMY",
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "CashLoanMY",
-      "url": "https://cashloanmy.com",
-    },
-    "datePublished": content.publishedAt,
-    "dateModified": content.updatedAt || content.publishedAt,
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": `https://cashloanmy.com/guides/${slug}`,
-    },
-  };
+  // Generate structured data using helpers
+  const articleSchema = generateArticleSchema({
+    title: content.title,
+    description: content.description,
+    publishedAt: content.publishedAt,
+    updatedAt: content.updatedAt || content.publishedAt,
+    author: content.author,
+    url: `https://cashloanmy.com/guides/${slug}`,
+  });
 
-  // FAQ structured data - common questions for loan guides
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I get a loan if the bank rejected me in Malaysia?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "If banks rejected your loan application, you can try licensed money lenders, digital lending apps like TNG GOpinjam or AEON iCash, or work with loan specialists who can help improve your DSR and CCRIS before reapplying. Avoid unlicensed lenders (Ah Long).",
-        },
-      },
-      {
-        "@type": "Question",
-        "name": "What is the minimum salary to get a personal loan in Malaysia?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Most banks require a minimum salary of RM2,000-3,000 per month for personal loans. However, some digital lenders and licensed money lenders accept lower income levels starting from RM1,500 per month.",
-        },
-      },
-      {
-        "@type": "Question",
-        "name": "Can I get a loan with bad CTOS or CCRIS in Malaysia?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, some lenders accept applicants with impaired CCRIS or CTOS records, though at higher interest rates. Licensed money lenders and certain fintech apps have more flexible requirements than traditional banks.",
-        },
-      },
-    ],
-  };
+  const faqSchema = generateFAQSchema(loanGuideFAQs);
 
   return (
     <>
