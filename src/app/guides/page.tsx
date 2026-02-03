@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { getAllContent } from "@/lib/mdx";
+import GuidesFilter from "@/components/GuidesFilter";
 
 export const metadata: Metadata = {
   title: "Loan Guides | CashLoanMY",
@@ -26,71 +27,10 @@ export default function GuidesPage() {
         </div>
       </section>
 
-      {/* Guides List */}
+      {/* Guides List with Filter */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {guides.length === 0 ? (
-            <p className="text-center text-gray-600">
-              No guides available yet. Check back soon!
-            </p>
-          ) : (
-            <div className="space-y-6">
-              {guides.map((guide) => (
-                <Link
-                  key={guide.slug}
-                  href={`/guides/${guide.slug}`}
-                  className="block bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6"
-                >
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div className="flex-1">
-                      {guide.category && (
-                        <span className="inline-block bg-primary-100 text-primary-700 text-xs font-medium px-2.5 py-0.5 rounded-full mb-2">
-                          {guide.category}
-                        </span>
-                      )}
-                      <h2 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-primary-700">
-                        {guide.title}
-                      </h2>
-                      <p className="text-gray-600 text-sm mb-3">
-                        {guide.description}
-                      </p>
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
-                        <span>{guide.readingTime}</span>
-                        <span>
-                          {new Date(guide.publishedAt).toLocaleDateString(
-                            "en-MY",
-                            {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            }
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex-shrink-0">
-                      <span className="inline-flex items-center text-primary-600 font-medium text-sm">
-                        Read Guide
-                        <svg
-                          className="w-4 h-4 ml-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
+          <GuidesFilter guides={guides} />
         </div>
       </section>
 
