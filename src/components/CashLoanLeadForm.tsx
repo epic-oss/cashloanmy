@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatNumberWithCommas, stripCommas } from "@/lib/utils";
 
 interface CashLoanLeadFormProps {
@@ -41,6 +41,30 @@ export default function CashLoanLeadForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [trackingData, setTrackingData] = useState({
+    referrer: "",
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
+    landing_page: "",
+  });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Store landing page in sessionStorage on first visit
+    if (!sessionStorage.getItem("landing_page")) {
+      sessionStorage.setItem("landing_page", window.location.href);
+    }
+
+    setTrackingData({
+      referrer: document.referrer || "",
+      utm_source: params.get("utm_source") || "",
+      utm_medium: params.get("utm_medium") || "",
+      utm_campaign: params.get("utm_campaign") || "",
+      landing_page: sessionStorage.getItem("landing_page") || window.location.href,
+    });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,6 +123,11 @@ export default function CashLoanLeadForm({
         "Lead Type": "cash_loan",
         "Source Site": "CashLoanMY",
         "Source URL": typeof window !== "undefined" ? window.location.href : "",
+        "Referrer": trackingData.referrer,
+        "UTM Source": trackingData.utm_source,
+        "UTM Medium": trackingData.utm_medium,
+        "UTM Campaign": trackingData.utm_campaign,
+        "Landing Page": trackingData.landing_page,
       };
 
       const response = await fetch(
