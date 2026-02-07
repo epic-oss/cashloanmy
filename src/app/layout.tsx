@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     locale: "en_MY",
     siteName: "CashLoanMY",
   },
+  icons: {
+    icon: "/logo-icon.png",
+  },
   verification: {
     google: "srm1R4qtShaH9kv5s0kr-D3TdlxDr8-3uxuEW2RfnsE",
   },
@@ -38,9 +41,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" type="image/png" href="/logo-icon.png" />
-      </head>
       <body className={inter.className}>
         <LeadFormProvider>
           <GoogleAnalytics />
