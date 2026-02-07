@@ -8,6 +8,7 @@ import BackToTop from "@/components/BackToTop";
 import {
   generateArticleSchema,
   generateFAQSchema,
+  extractFAQsFromContent,
   loanGuideFAQs,
 } from "@/lib/schema";
 
@@ -77,7 +78,11 @@ export default async function GuidePage({ params }: PageProps) {
     url: `https://cashloanmy.com/guides/${slug}`,
   });
 
-  const faqSchema = generateFAQSchema(loanGuideFAQs);
+  const faqItems =
+    content.schema === "FAQPage"
+      ? extractFAQsFromContent(content.content)
+      : loanGuideFAQs;
+  const faqSchema = generateFAQSchema(faqItems);
 
   return (
     <>

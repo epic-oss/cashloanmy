@@ -101,6 +101,41 @@ export function generateWebApplicationSchema() {
   };
 }
 
+/**
+ * Extract FAQ items from MDX content by finding H2 headings that are questions
+ * and their first bold-text answer paragraph.
+ */
+export function extractFAQsFromContent(
+  content: string
+): { question: string; answer: string }[] {
+  const faqs: { question: string; answer: string }[] = [];
+  const lines = content.split("\n");
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    // Match H2 headings that end with ?
+    const h2Match = line.match(/^## (.+\?)$/);
+    if (!h2Match) continue;
+
+    const question = h2Match[1];
+    // Find the first non-empty paragraph after the H2
+    let answer = "";
+    for (let j = i + 1; j < lines.length; j++) {
+      const nextLine = lines[j].trim();
+      if (!nextLine) continue; // skip blank lines
+      if (nextLine.startsWith("#") || nextLine.startsWith("<")) break; // stop at next heading or component
+      // Strip markdown bold markers for clean text
+      answer = nextLine.replace(/\*\*/g, "");
+      break;
+    }
+    if (question && answer) {
+      faqs.push({ question, answer });
+    }
+  }
+
+  return faqs;
+}
+
 // Common FAQ questions for loan guides
 export const loanGuideFAQs = [
   {

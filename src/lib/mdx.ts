@@ -37,6 +37,7 @@ export interface ContentFrontmatter {
   tags?: string[];
   featured?: boolean;
   image?: string;
+  schema?: string;
 }
 
 export interface ContentMeta extends ContentFrontmatter {
@@ -81,6 +82,7 @@ export function getContentBySlug(
     tags: data.tags || [],
     featured: data.featured || false,
     image: data.image,
+    schema: data.schema,
     readingTime: stats.text,
     content: processedContent,
   };
